@@ -1,5 +1,15 @@
-import { Button, Col, Divider, Image, List, Row } from "antd";
+import {
+  Button,
+  Col,
+  Divider,
+  Image,
+  List,
+  Row,
+  Modal,
+  notification,
+} from "antd";
 import React, { useEffect, useState } from "react";
+import { WalletOutlined } from "@ant-design/icons";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
 import { useTypedDispatch } from "../../../hooks/useTypedDispatch";
@@ -17,6 +27,7 @@ const ProductDetail: React.FC = () => {
   const navigate = useNavigate();
   const { t, i18n } = useTranslation();
   const [product, setProduct] = useState<Product>(new Product());
+  const [quantity, setQuantity] = useState<number>(1);
 
   useEffect(() => {
     const maker = new BreadcrumbMaker();
@@ -50,11 +61,49 @@ const ProductDetail: React.FC = () => {
     );
   };
 
+  const handleClickBasket = () => {
+    const service = new BaseService();
+    if (!service.Authentication.isAuthenticate()) {
+      Modal.error({
+        title: t("Error"),
+        content: t("YouHaveToLoginToAddToBasket"),
+        okText: t("Ok"),
+      });
+      return;
+    }
+    Modal.confirm({
+      title: t("AddToBasket"),
+      icon: <WalletOutlined />,
+      content: t("AreYouSureToAddBasket"),
+      okText: t("Add"),
+      cancelText: t("Cancel"),
+      onOk: () => {
+        addToBasket();
+      },
+    });
+  };
+
+  const addToBasket = async () => {
+    try {
+      const service = new BaseService();
+      const { data } = await service.Sales.addToBasket(quantity, product.id);
+      if (!data.hasFailed && data.data) {
+        notification.success({
+          message: t("Success"),
+          description: t("ProductAddedToBasket"),
+        });
+      }
+    } catch (error) {}
+  };
   return (
     <div>
       <Row>
         <Col span={12}>
-          <Image src={product.imagePath} alt={product.name} style={{height:"500px"}} />
+          <Image
+            src={product.imagePath}
+            alt={product.name}
+            style={{ height: "500px" }}
+          />
         </Col>
         <Col span={6}>
           <List bordered>
@@ -72,11 +121,18 @@ const ProductDetail: React.FC = () => {
               <InputNumber
                 style={{ marginLeft: "10px" }}
                 min={1}
+                name="quantity"
                 defaultValue={1}
+                onChange={(value: number) => setQuantity(value)}
               />
             </List.Item>
             <List.Item>
-              <Button style={{ width: "100%" }} type="primary" shape="round">
+              <Button
+                style={{ width: "100%" }}
+                type="primary"
+                shape="round"
+                onClick={() => handleClickBasket()}
+              >
                 {t("AddToBasket")}
               </Button>
             </List.Item>
