@@ -1,5 +1,6 @@
 import ProductPagination from "../models/catalog/product/ProductPagination";
 import ProductCommentPagination from "../models/catalog/productComment/ProductCommentPagination";
+import Basket from "../models/sales/basket/Basket";
 import LocalStrorageService from "../service/localStorageService";
 
 var localStorageService = new LocalStrorageService();
@@ -12,7 +13,8 @@ const initialState = {
   language: lang,
   breadcrumbs: [],
   productList: new ProductPagination(),
-  productCommentList : new ProductCommentPagination()
+  productCommentList : new ProductCommentPagination(),
+  currentUserBasket : new Basket()
 };
 
 export default initialState;

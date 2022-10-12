@@ -31,6 +31,7 @@ import JobExecutionList from "../components/configuration/JobExecution/JobExecut
 import JobExecutionDetail from "../components/configuration/JobExecution/JobExecutionDetail";
 import Statistics from "../components/dashboard/Statistics";
 import ProductDetail from "../components/pages/ProductDetail/ProductDetail";
+import Basket from "../components/pages/Basket/Basket";
 
 const defaultProtectedRouteProps: Omit<ProtectedRouteProps, "outlet"> = {
   authenticationPath: "/login",
@@ -72,6 +73,15 @@ const Routers: React.FC = () => {
           <NormalRoute
             {...defaultNormalRouteProps}
             outlet={<ProductDetail />}
+          />
+        }
+      />
+      <Route
+        path="/basket"
+        element={
+          <NormalRoute
+            {...defaultNormalRouteProps}
+            outlet={<Basket />}
           />
         }
       />

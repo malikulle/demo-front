@@ -42,6 +42,11 @@ export class BreadcrumbMaker {
     return [...list, update];
   }
 
+  getMyBasket(){
+    const myBasket = new Breadcrumb("MyBasket", 1, "");
+    return [myBasket]
+  }
+
   getDasboardStatistics() {
     const dashboard = new Breadcrumb("Dashboard", 1, "");
     const statistics = new Breadcrumb("Statistics", 2, "/dashboard/statistics");

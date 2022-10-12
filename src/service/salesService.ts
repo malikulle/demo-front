@@ -24,4 +24,33 @@ export default class SalesService {
     request.data = basketItem;
     return this.http.Post<ServiceObjectResult<Basket>>("AddToBasket", request);
   }
+
+  removeFromBasket(productID: number, basketID: number = 0) {
+    const basketItem = new BasketItem();
+    basketItem.productID = productID;
+    basketItem.basketID = basketID;
+    const request = new WebApiObjectRequest<BasketItem>();
+    request.data = basketItem;
+    return this.http.Post<ServiceObjectResult<Basket>>(
+      "RemoveFromBasket",
+      request
+    );
+  }
+
+  updateBasketQuantity(
+    quantity: number,
+    productID: number,
+    basketID: number = 0
+  ) {
+    const basketItem = new BasketItem();
+    basketItem.quantity = quantity;
+    basketItem.productID = productID;
+    basketItem.basketID = basketID;
+    const request = new WebApiObjectRequest<BasketItem>();
+    request.data = basketItem;
+    return this.http.Post<ServiceObjectResult<Basket>>(
+      "UpdateBasketQuantity",
+      request
+    );
+  }
 }

@@ -7,8 +7,10 @@ import { Card, Modal, notification } from "antd";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { useTypedDispatch } from "../../../hooks/useTypedDispatch";
 import Product from "../../../models/catalog/product/Product";
 import BaseService from "../../../service/BaseService";
+import { getCurrentUserBasket } from "../../../store/actions/salesActions";
 const { Meta } = Card;
 
 type ProductCardProp = {
@@ -18,6 +20,7 @@ type ProductCardProp = {
 const ProductCard: React.FC<ProductCardProp> = (props: ProductCardProp) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const dispatch = useTypedDispatch()
 
   const clickToDetailPage = () => {
     navigate("/productDetail/" + props.product.id);
@@ -54,6 +57,7 @@ const ProductCard: React.FC<ProductCardProp> = (props: ProductCardProp) => {
           message: t("Success"),
           description: t("ProductAddedToBasket"),
         });
+        dispatch(getCurrentUserBasket())
       }
     } catch (error) {}
   };

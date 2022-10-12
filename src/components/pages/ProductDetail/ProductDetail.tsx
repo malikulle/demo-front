@@ -20,6 +20,7 @@ import { addBreadcrumb } from "../../../store/actions/breadcrumbActions";
 import { InputNumber } from "antd";
 import CommentList from "./CommentList";
 import AddComment from "./AddComment";
+import { getCurrentUserBasket } from "../../../store/actions/salesActions";
 
 const ProductDetail: React.FC = () => {
   const params = useParams();
@@ -92,6 +93,7 @@ const ProductDetail: React.FC = () => {
           message: t("Success"),
           description: t("ProductAddedToBasket"),
         });
+        dispatch(getCurrentUserBasket())
       }
     } catch (error) {}
   };

@@ -10,6 +10,6 @@ export default class Basket {
   totalPrice: number = 0;
   basketPrice: number = 0;
   taxPrice: number = 0;
-  hhippingPrice: number = 0;
+  shippingPrice: number = 0;
   basketItems: BasketItem[] = [];
 }
